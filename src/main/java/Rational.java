@@ -10,10 +10,18 @@ class Rational {
 
     Rational() {
         // to be completed
+        this.numerator = 0;
+        this.denominator = 1;
     }
 
     Rational(long numerator, long denominator) throws Illegal { 
         // to be completed
+        if (denominator == 0) {
+            throw new Illegal("Denominator cannot be zero");
+        }
+        this.numerator = numerator;
+        this.denominator = denominator;
+        simplestForm();
     } 
 
     // find the reduce form 
@@ -46,22 +54,37 @@ class Rational {
      */
     public void subtract(Rational x) {
         // to be completed
+        numerator = (numerator * x.denominator) - (x.numerator * denominator);
+        denominator = (denominator * x.denominator);
+        simplestForm();
     }
 
     /***
      * Compute a multiplication of the current rational number to another given rational number
      * @param x the rational number to be multiplied to the current rational number
      */
-    public void multiply(Rational x) { 
+    public void multiply(Rational x){
         // to be completed
+        if(x.denominator == 0){
+            throw new IllegalArgumentException("Denominator cannot be Zero.");
+        }
+        numerator = numerator * x.numerator;
+        denominator = denominator * x.denominator;
+        simplestForm();
     }
 
     /***
      * Compute a division of the current rational number to another given rational number
      * @param x the rational number to be divided by the current rational number
      */
-    public void divide(Rational x) {
+    public void divide(Rational x){
         // to be completed
+        if (x.numerator == 0){
+            throw new IllegalArgumentException("Cannot divide by a rational number with zero numerator.");
+        }
+        numerator = numerator * x.denominator;
+        denominator = denominator * x.numerator;
+        simplestForm();
     }
 
     /***
@@ -71,7 +94,13 @@ class Rational {
      */
     public boolean equals(Object x) {
         // to be completed
-        return true; // TODO: This needs to be modified.
+//        return true; // TODO: This needs to be modified.
+        if (!(x instanceof Rational)) {
+            throw new IllegalArgumentException("Object is not a Rational");
+        }
+        if (x == null || getClass() != x.getClass()) return false;
+        Rational other = (Rational) x;
+        return numerator == other.numerator && denominator == other.denominator;
     }
 
     /***
@@ -82,7 +111,13 @@ class Rational {
      */
     public long compareTo(Object x) {
         // to be completed
-        return -1; // TODO: this needs to be modified.
+//        return -1; // TODO: this needs to be modified.
+        if (!(x instanceof Rational)) {
+            throw new IllegalArgumentException("Object is not a Rational");
+        }
+        Rational other = (Rational) x;
+        long diff = this.numerator * other.denominator - other.numerator * this.denominator;
+        return Long.compare(diff, 0);
     }
 
     /***
@@ -91,7 +126,8 @@ class Rational {
      */
     public String toString() { 
         // to be completed
-        return ""; // TODO: This needs to be modified.
+//        return ""; // TODO: This needs to be modified.
+        return numerator + "/" + denominator;
     }
 
     public static void main(String[] args) {
